@@ -1,5 +1,6 @@
 import time
 import logging
+logger = logging.getLogger(__name__)
 
 from copy import deepcopy
 from selenium.webdriver import Chrome
@@ -19,6 +20,12 @@ class SeleniumEmulator:
         if user.chrome_portable_exe_path:
             chrome_options.binary_location = user.chrome_portable_exe_path
 
+        chrome_options.add_experimental_option(
+            "prefs", {
+                "download.default_directory": "/dev/null", 
+                "download.prompt_for_download": False, 
+            }
+        )
         self.driver = Chrome(options = chrome_options)
         self.actions = ActionChains(self.driver)
         self.driver.implicitly_wait(3)
@@ -26,6 +33,9 @@ class SeleniumEmulator:
 
     def quit(self, ):
         self.driver.quit()
+    
+    def open_new_tab(self):
+        self.driver.switch_to.new_window('tab')
 
     def goto_url(self, url:str, delay:float=3.0):
         self.driver.get(url)
@@ -36,7 +46,7 @@ class SeleniumEmulator:
         try: 
             current_url = self.driver.current_url
         except Exception as e:
-            print(f'get current url exception: {e.msg}')
+            logger.error(f'get current url exception: {e.msg}')
         finally:
             return current_url
     

@@ -1,5 +1,6 @@
 import time
 import logging
+logger = logging.getLogger(__name__)
 
 from emulator import SeleniumEmulator
 from selenium.webdriver import Chrome
@@ -8,10 +9,11 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver import ChromeOptions
 from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.chrome.service import Service as ChromeService
+from .base import Base_task
 
-class Twitter:
+class Twitter(Base_task):
     def __init__(self, emulator:SeleniumEmulator):
-        self.emulator = emulator
+        super(Twitter, self).__init__(emulator)
         self.url = "https://twitter.com/"
         self.emulator.goto_url(self.url)
         if not self.is_login_successful():
