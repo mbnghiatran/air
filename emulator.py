@@ -9,16 +9,14 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver import ChromeOptions
 from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.chrome.service import Service as ChromeService
-from classes import Config, User
 
 class SeleniumEmulator:
-    def __init__(self, user: User, headless=True, **kwargs):
-        self.user = user
+    def __init__(self, chrome_portable_exe_path=None, headless=True, **kwargs):
         chrome_options = ChromeOptions()
         if headless:
             chrome_options.add_argument('--headless=new')
-        if user.chrome_portable_exe_path:
-            chrome_options.binary_location = user.chrome_portable_exe_path
+        if chrome_portable_exe_path:
+            chrome_options.binary_location = chrome_portable_exe_path
 
         chrome_options.add_experimental_option(
             "prefs", {

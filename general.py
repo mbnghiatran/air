@@ -20,3 +20,14 @@ def xlxs2csv(excel_file_path):
     data_frame = pd.read_excel(excel_file_path)
     data_frame.to_csv(output, index=False)
     return output
+
+def getPageExtension(id:str, page: str):
+  return f"chrome-extension://${id}/${page}"
+
+def filter_user(all_user, chrome_portable_exe_paths):
+    users = {}
+    for row in all_user:
+        portable_path = Path(chrome_portable_exe_paths) / str(row["STT"]) / "GoogleChromePortable.exe"
+        if portable_path.exists():
+            users[portable_path] = row
+    return users
