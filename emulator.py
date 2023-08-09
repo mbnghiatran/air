@@ -9,7 +9,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver import ChromeOptions
 from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.chrome.service import Service as ChromeService
-from config import Config, User
+from classes import Config, User
 
 class SeleniumEmulator:
     def __init__(self, user: User, headless=True, **kwargs):

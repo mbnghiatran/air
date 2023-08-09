@@ -11,8 +11,7 @@ from selenium.webdriver import ChromeOptions
 from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.chrome.service import Service as ChromeService
 from selenium.webdriver.support import expected_conditions as EC
-from .base import Base_task
-
+from .base import Base_task, default_method_decorator
 
 class Gmail(Base_task):
     def __init__(self, emulator:SeleniumEmulator):
@@ -23,13 +22,15 @@ class Gmail(Base_task):
         self.emulator.goto_url(self.service_login_url, delay=5.0)
         if not self.is_login_successful():
             self.login()
-            
+
+    @default_method_decorator(Base_task.default_method)      
     def is_login_successful(self):
         current_url = self.emulator.get_current_url()
         if self.my_account_url in current_url:
             return True
         return False
     
+    @default_method_decorator(Base_task.default_method)
     def login(self):
         try:  ## Didn't login before
             # input email

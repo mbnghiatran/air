@@ -3,7 +3,7 @@ import platform
 
 from pathlib import Path
 import argparse
-from config import Config, User
+from classes import Config, User
 from emulator import SeleniumEmulator
 from general import get_all_user
 from task.twitter import Twitter

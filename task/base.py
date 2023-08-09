@@ -13,9 +13,19 @@ from selenium.webdriver.chrome.service import Service as ChromeService
 from selenium.webdriver.support import expected_conditions as EC
 
 
+def default_method_decorator(default_method):
+    def decorator(method):
+        def wrapped(self, *args, **kwargs):
+            default_method(self)
+            return method(self, *args, **kwargs)
+        return wrapped
+    return decorator
 
 class Base_task:
     def __init__(self, emulator:SeleniumEmulator):
         self.emulator = emulator
         self.emulator.open_new_tab()
-        self.main_tab = self.emulator.driver.current_window_handle
+        self.task_tab = self.emulator.driver.current_window_handle
+
+    def default_method(self):
+        self.emulator.driver.switch_to.window(self.task_tab)

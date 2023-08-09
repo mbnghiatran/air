@@ -9,7 +9,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver import ChromeOptions
 from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.chrome.service import Service as ChromeService
-from .base import Base_task
+from .base import Base_task, default_method_decorator
 
 class Twitter(Base_task):
     def __init__(self, emulator:SeleniumEmulator):
@@ -19,12 +19,14 @@ class Twitter(Base_task):
         if not self.is_login_successful():
             self.login()
 
+    @default_method_decorator(Base_task.default_method)
     def is_login_successful(self):
         current_url = self.emulator.get_current_url()
         if "/home" in current_url:
             return True
         return False
     
+    @default_method_decorator(Base_task.default_method)
     def login(self):
         sign_in_element = self.emulator.driver.find_element(By.XPATH, "//span[text()='Sign in']")
         sign_in_element.click()
