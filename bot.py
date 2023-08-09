@@ -20,7 +20,8 @@ def run_once(user_info, portable_path, headless=True):
     if platform.system() == 'Darwin':
         portable_path = ''
     user = User(user_info, portable_path, headless)
-    
+    for task_name in ['gmail', 'twitter',]: 
+        user.add_task(task_name)
     return
 
 

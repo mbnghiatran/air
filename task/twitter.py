@@ -46,5 +46,15 @@ class Twitter(Base_task):
         login_element.click()
         time.sleep(3.0)
 
+    @default_method_decorator(Base_task.default_method)
+    def retweet(self):
+        return
+    
+    @default_method_decorator(Base_task.default_method)
+    def follow(self):
+        return
+    
+    @default_method_decorator(Base_task.default_method)
+    def like(self):
+        return
 
-        

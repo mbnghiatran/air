@@ -1,6 +1,7 @@
 
 from enum import Enum
 
+
 class EExtensionName(Enum):
     NOPE_CHA = 'nope-cha'
     META_MASK = 'meta-mask'
