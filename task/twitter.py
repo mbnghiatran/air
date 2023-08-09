@@ -1,4 +1,5 @@
 import time
+import logging
 
 from emulator import SeleniumEmulator
 from selenium.webdriver import Chrome
@@ -13,14 +14,14 @@ class Twitter:
         self.emulator = emulator
         self.url = "https://twitter.com/"
         self.emulator.goto_url(self.url)
-        if self.is_login_page():
+        if not self.is_login_successful():
             self.login()
 
-    def is_login_page(self):
+    def is_login_successful(self):
         current_url = self.emulator.get_current_url()
         if "/home" in current_url:
-            return False
-        return True
+            return True
+        return False
     
     def login(self):
         sign_in_element = self.emulator.driver.find_element(By.XPATH, "//span[text()='Sign in']")
@@ -37,7 +38,7 @@ class Twitter:
         user_element = self.emulator.driver.find_element(By.NAME, "password")
         user_element.send_keys(self.emulator.user.data['Twitter'])
         # submit
-        login_element = self.emulator.driver.find_element(By.XPATH, "//a[@role = 'button']") 
+        login_element = self.emulator.driver.find_element(By.XPATH, "//a[@role='button']") 
         login_element.click()
         time.sleep(3.0)
 

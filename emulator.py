@@ -1,3 +1,6 @@
+import time
+import logging
+
 from copy import deepcopy
 from selenium.webdriver import Chrome
 from selenium.common.exceptions import *
@@ -26,6 +29,7 @@ class SeleniumEmulator:
 
     def goto_url(self, url:str, delay:float=3.0):
         self.driver.get(url)
+        time.sleep(delay)
 
     def get_current_url(self):
         current_url = ''
