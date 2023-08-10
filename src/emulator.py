@@ -27,7 +27,7 @@ class SeleniumEmulator:
         self.driver = Chrome(options = chrome_options)
         self.actions = ActionChains(self.driver)
         self.driver.implicitly_wait(3)
-        self.INIT_SCRIPT = open("./default.js", 'r').read()
+        self.INIT_SCRIPT = open("./src/default.js", 'r').read()
 
     def quit(self, ):
         self.driver.quit()

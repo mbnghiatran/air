@@ -3,10 +3,10 @@ import platform
 
 from pathlib import Path
 import argparse
-from classes import Config, User
-from general import get_all_user, filter_user
-from task.twitter import Twitter
-from task.gmail import Gmail
+from src.classes import Config, User
+from src.general import get_all_user, filter_user
+from src.task.twitter import Twitter
+from src.task.gmail import Gmail
 
 
 def parser():

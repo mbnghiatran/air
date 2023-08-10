@@ -1,11 +1,11 @@
 import yaml
 import pandas as pd
-from emulator import SeleniumEmulator
 from enum import Enum
-from task.dcom import DcomAutomation
-from task.gmail import Gmail
-from task.twitter import Twitter
-from task.metamask import MetaMask
+from .emulator import SeleniumEmulator
+from .task.dcom import DcomAutomation
+from .task.gmail import Gmail
+from .task.twitter import Twitter
+from .task.metamask import MetaMask
 
 task_name = {
     "dcom": DcomAutomation,
