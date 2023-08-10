@@ -1,0 +1,3 @@
+export const TIME_WAITING = {
+  WAITING_ELEMENT_LOCATED: 5000,
+};
