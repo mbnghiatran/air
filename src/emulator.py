@@ -3,10 +3,11 @@ import logging
 logger = logging.getLogger(__name__)
 
 from copy import deepcopy
-from selenium.webdriver import Chrome
+from selenium.webdriver import Chrome, ChromeOptions
 from selenium.common.exceptions import *
 from selenium.webdriver.common.by import By
-from selenium.webdriver import ChromeOptions
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.chrome.service import Service as ChromeService
 
@@ -31,6 +32,13 @@ class SeleniumEmulator:
 
     def quit(self, ):
         self.driver.quit()
+
+    def find_element(self, by:callable, value:str, waiting_time=10.0):
+        try:
+            element =  WebDriverWait(self.driver, waiting_time).until(EC.visibility_of_element_located((by, value)))
+            return element
+        except:
+            return None
     
     def open_new_tab(self):
         self.driver.switch_to.new_window('tab')

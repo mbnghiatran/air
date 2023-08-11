@@ -15,5 +15,5 @@ from ..emulator import SeleniumEmulator
 from .base import Base_task, default_method_decorator
 
 class MetaMask(Base_task):
-    def __init__(self, emulator:SeleniumEmulator):
-        super(MetaMask, self).__init__(emulator)
+    def __init__(self, emulator:SeleniumEmulator, user_data:dict):
+        super(MetaMask, self).__init__(emulator, user_data)

@@ -20,7 +20,7 @@ def run_once(user_info, portable_path, headless=True):
     if platform.system() == 'Darwin':
         portable_path = ''
     user = User(user_info, portable_path, headless)
-    for task_name in ['gmail', 'twitter',]: 
+    for task_name in ['twitter',]: 
         user.add_task(task_name)
     return
 
@@ -28,8 +28,8 @@ def run_once(user_info, portable_path, headless=True):
 if __name__ == '__main__':
     args = parser()
     all_user = get_all_user(args.excel_file_path)
-    user_data = filter_user(all_user, args.chrome_portable_exe_paths)
-    for portable_path, info in user_data.items():
-        run_once(info, portable_path, False)
+    portable2profile = filter_user(all_user, args.chrome_portable_exe_paths)
+    for portable_path, profile in portable2profile.items():
+        run_once(profile, portable_path, False)
         break
 

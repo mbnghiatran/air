@@ -22,7 +22,7 @@ class User:
         self.tasks = {}
 
     def add_task(self, name):
-        self.tasks[name] = task_name[name](self.emulator)
+        self.tasks[name] = task_name[name](self.emulator, self.info)
 
 
 class Config:

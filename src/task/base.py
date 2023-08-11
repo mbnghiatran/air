@@ -22,7 +22,8 @@ def default_method_decorator(default_method):
     return decorator
 
 class Base_task:
-    def __init__(self, emulator:SeleniumEmulator):
+    def __init__(self, emulator:SeleniumEmulator, user_data:dict):
+        self.user_data = user_data
         self.emulator = emulator
         self.emulator.open_new_tab()
         self.task_tab = self.emulator.driver.current_window_handle

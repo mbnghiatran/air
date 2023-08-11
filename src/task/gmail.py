@@ -2,24 +2,21 @@ import time
 import logging
 logger = logging.getLogger(__name__)
 
-from selenium.webdriver import Chrome
 from selenium.common.exceptions import *
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver import ChromeOptions
-from selenium.webdriver.common.action_chains import ActionChains
-from selenium.webdriver.chrome.service import Service as ChromeService
 from selenium.webdriver.support import expected_conditions as EC
 
 from ..emulator import SeleniumEmulator
 from .base import Base_task, default_method_decorator
 
 class Gmail(Base_task):
-    def __init__(self, emulator:SeleniumEmulator):
-        super(Gmail, self).__init__(emulator)
+    def __init__(self, emulator:SeleniumEmulator, user_data:dict):
+        super(Gmail, self).__init__(emulator, user_data)
+        self.username = self.user_data.get("Mail")
+        self.password = self.user_data.get("Pass Mail")
         self.service_login_url = "https://accounts.google.com/ServiceLogin"
-        self.interactive_login_url = "https://accounts.google.com/InteractiveLogin"
-        self.my_account_url = "https://myaccount.google.com" #https://myaccount.google.com/?utm_source=sign_in_no_continue&pli=1
+        self.my_account_url = "https://myaccount.google.com"
         self.emulator.goto_url(self.service_login_url, delay=5.0)
         if not self.is_login_successful():
             self.login()
@@ -33,21 +30,22 @@ class Gmail(Base_task):
     
     @default_method_decorator(Base_task.default_method)
     def login(self):
-        try:  ## Didn't login before
-            # input email
-            email_input = self.emulator.driver.find_element(By.XPATH, "//input[@type='email']")
-            email_input.send_keys(self.emulator.user.data['gmail']['username'])
-            # click next
-            next_button = self.emulator.driver.find_element(By.ID, "identifierNext")
-        except: ## Have login before
-            next_button = self.emulator.driver.find_element(By.XPATH, "//button")
+        try: 
+            account_element = self.emulator.find_element(By.CSS_SELECTOR, f"div[data-identifier='{self.username}']")
+            if account_element: # have logged in before
+                account_element.click()
+            else:
+                email_input = self.emulator.find_element(By.XPATH, "//input[@type='email']")
+                if email_input:
+                    email_input.send_keys(self.username)
+                identifier_next = self.emulator.find_element(By.ID, "identifierNext")
+                identifier_next.click()
 
-        finally:
-            next_button.click()
-            # input password
-            password_input = self.emulator.driver.find_element(By.NAME, "Passwd")
-            password_input.send_keys(self.emulator.user.data['gmail']['password'])
-            # Submit the login form
-            submit_button = self.emulator.driver.find_element((By.ID, 'passwordNext'))
-            submit_button.click()
+            password_input = self.emulator.find_element(By.XPATH, "//input[@type='password']")
+            password_input.send_keys(self.password)
+            password_next = self.emulator.find_element(By.ID, "passwordNext")
+            password_next.click()
             WebDriverWait(self.emulator.driver, 10).until(EC.url_contains(self.my_account_url))
+        except:
+            pass
+        return

@@ -16,13 +16,13 @@ from .base import Base_task, default_method_decorator
 
 
 class DcomAutomation(Base_task):
-    def __init__(self, emulator:SeleniumEmulator, **kwargs):
-        super(DcomAutomation, self).__init__(emulator)
+    def __init__(self, emulator:SeleniumEmulator, user_data:dict):
+        super(DcomAutomation, self).__init__(emulator, user_data)
         self.homePageDCOM = ''
         self.emulator.goto_url(self.homePageDCOM, delay=5.0)
     
     @default_method_decorator(Base_task.default_method)
     def click_connect_button(self):
-        button = self.emulator.driver.find_element(By.ID, "h_connect_btn")
+        button = self.emulator.find_element(By.ID, "h_connect_btn")
         button.click()
         
