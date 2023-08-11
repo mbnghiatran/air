@@ -45,10 +45,14 @@ class SeleniumEmulator:
     def open_new_tab(self):
         self.driver.switch_to.new_window('tab')
 
-    def goto_url(self, url:str, delay:float=1.0):
+    def goto_url(self, url:str, delay:float=3.0):
         self.driver.get(url)
         time.sleep(delay)
 
     def get_current_url(self):
         return self.driver.current_url
+    
+    def send_keys(self, element, text):
+        element.clear()
+        element.send_keys(text)
         

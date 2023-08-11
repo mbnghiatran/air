@@ -37,15 +37,15 @@ class Gmail(Base_task):
             else:
                 email_input = self.emulator.find_element(By.XPATH, "//input[@type='email']")
                 if email_input:
-                    email_input.send_keys(self.username)
+                    self.emulator.send_keys(email_input, self.username)
                 identifier_next = self.emulator.find_element(By.ID, "identifierNext")
                 identifier_next.click()
 
             password_input = self.emulator.find_element(By.XPATH, "//input[@type='password']")
-            password_input.send_keys(self.password)
+            self.emulator.send_keys(password_input, self.password)
             password_next = self.emulator.find_element(By.ID, "passwordNext")
             password_next.click()
-            WebDriverWait(self.emulator.driver, 10).until(EC.url_contains(self.my_account_url))
+            WebDriverWait(self.driver, 10).until(EC.url_contains(self.my_account_url))
         except:
             pass
         return

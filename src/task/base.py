@@ -31,3 +31,7 @@ class Base_task:
     def default_method(self):
         if self.emulator.driver.current_window_handle != self.task_tab:
             self.emulator.driver.switch_to.window(self.task_tab)
+
+    @property
+    def driver(self):
+        return self.emulator.driver

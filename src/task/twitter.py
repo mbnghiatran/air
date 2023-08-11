@@ -33,21 +33,21 @@ class Twitter(Base_task):
         sign_in_element = self.emulator.find_element(By.CSS_SELECTOR, "a[data-testid='loginButton']")
         sign_in_element.click()
         # input username
-        user_element = self.emulator.find_element(By.CSS_SELECTOR, "input[name='text'][type='text']")
-        user_element.send_keys(self.username)
+        username_input = self.emulator.find_element(By.CSS_SELECTOR, "input[name='text'][type='text']")
+        self.emulator.send_keys(username_input, self.username)
 
         # click next
         next_element = self.emulator.find_element(By.XPATH, "//span[text()='Next']")
         next_element.click()
 
         # input password
-        user_element = self.emulator.find_element(By.CSS_SELECTOR, "input[name='password'][type='password']")
-        user_element.send_keys(self.password)
-        
+        password_input = self.emulator.find_element(By.CSS_SELECTOR, "input[name='password'][type='password']")
+        self.emulator.send_keys(password_input, self.password)
+
         # submit
         login_element = self.emulator.find_element(By.XPATH, "//span[text()='Log in']")
         login_element.click()
-        WebDriverWait(self.emulator.driver, 10).until(EC.url_contains(self.home_url))
+        WebDriverWait(self.driver, 10).until(EC.url_contains(self.home_url))
         return
 
     @default_method_decorator(Base_task.default_method)
