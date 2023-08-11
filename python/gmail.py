@@ -32,29 +32,6 @@ email, password, profile_path, chrome_executable_path = args[1:5]
 # Use the email and password in your script
 logging.info("Logging in with email:", email, "and password:", password, "and profile path:", profile_path)
 
-def login(driver, user_data):
-    service_login_url = "https://accounts.google.com/ServiceLogin"
-    interactive_login_url = "https://accounts.google.com/InteractiveLogin"
-    my_account_url = "https://myaccount.google.com" #https://myaccount.google.com/?utm_source=sign_in_no_continue&pli=1
-        
-    try:  ## Didn't login before
-        # input email
-        email_input = driver.find_element(By.XPATH, "//input[@type='email']")
-        email_input.send_keys(user_data['gmail']['username'])
-        # click next
-        next_button = driver.find_element(By.ID, "identifierNext")
-    except: ## Have login before
-        next_button = driver.find_element(By.XPATH, "//button")
-    finally:
-        next_button.click()
-        # input password
-        password_input = driver.find_element(By.NAME, "Passwd")
-        password_input.send_keys(user_data['gmail']['password'])
-        # Submit the login form
-        submit_button = driver.find_element((By.ID, 'passwordNext'))
-        submit_button.click()
-        WebDriverWait(driver, 10).until(EC.url_contains(my_account_url))
-
 try:
     # driver_path = ChromeDriverManager(version="111.0.5563.64").install()
     service_login_url = "https://accounts.google.com/ServiceLogin"
@@ -66,19 +43,57 @@ try:
     
     # navigate to a website
     driver.get(service_login_url)
+
     waiting_time = 10 # 10 seconds
 
     # Check the current URL
     current_url = driver.current_url
+    
     login_successful = False
+    
     if my_account_url in current_url:
         login_successful = True
-    else:
+    elif interactive_login_url in current_url:
         try:
-            login(driver, usr_data)
+            divHaveLoginBefore = WebDriverWait(driver, waiting_time).until(EC.visibility_of_element_located((By.CSS_SELECTOR, 'div[data-identifier="hennettsasane50156@gmail.com"]')))
+            divHaveLoginBefore.click()
+            password_input = WebDriverWait(driver, waiting_time).until(EC.visibility_of_element_located((By.NAME, 'Passwd')))
+            password_input.send_keys(password)
+
+            # Submit the login form
+            submit_button = WebDriverWait(driver, waiting_time).until(EC.visibility_of_element_located((By.ID, 'passwordNext')))
+            submit_button.click()
+
+            # Wait for the page to load
+            WebDriverWait(driver, 10).until(EC.url_contains(my_account_url))
+
+            # Return result
             login_successful = True
-        except:
-            login_successful = False
+            
+        except TimeoutException:
+            # if the element is not found within the timeout, do something else
+            raise MyError("Please reset portable chrome to original state")
+    else:
+        print("Login with email and password")
+        # Fill in the login form
+        email_input = WebDriverWait(driver, waiting_time).until(EC.visibility_of_element_located((By.NAME, 'identifier')))
+        email_input.send_keys(email)
+
+        next_button = WebDriverWait(driver, waiting_time).until(EC.visibility_of_element_located((By.ID, 'identifierNext')))
+        next_button.click()
+
+        password_input = WebDriverWait(driver, waiting_time).until(EC.visibility_of_element_located((By.NAME, 'Passwd')))
+        password_input.send_keys(password)
+
+        # Submit the login form
+        submit_button = WebDriverWait(driver, waiting_time).until(EC.visibility_of_element_located((By.ID, 'passwordNext')))
+        submit_button.click()
+
+        # Wait for the page to load
+        WebDriverWait(driver, 10).until(EC.url_contains(my_account_url))
+        
+        # Return result
+        login_successful = True
 
     # Return result
     if login_successful:
@@ -89,6 +104,7 @@ try:
         print('false')
     
     driver.quit()
+
 
 except Exception as e:
     # handle the error
