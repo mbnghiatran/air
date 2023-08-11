@@ -51,14 +51,14 @@ class Twitter(Base_task):
         return
 
     @default_method_decorator(Base_task.default_method)
-    def retweet(self):
+    def retweet(self, link):
         return
     
     @default_method_decorator(Base_task.default_method)
-    def follow(self):
+    def follow(self, link):
         return
     
     @default_method_decorator(Base_task.default_method)
-    def like(self):
+    def like(self, link):
         return
 

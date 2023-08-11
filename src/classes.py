@@ -24,6 +24,9 @@ class User:
     def add_task(self, name):
         self.tasks[name] = task_name[name](self.emulator, self.info)
 
+    def end_all(self):
+        self.emulator.quit()
+
 
 class Config:
     def __init__(self, yaml_path):

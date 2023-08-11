@@ -22,6 +22,7 @@ def run_once(user_info, portable_path, headless=True):
     user = User(user_info, portable_path, headless)
     for task_name in ['twitter',]: 
         user.add_task(task_name)
+        user.end_all()
     return
 
 

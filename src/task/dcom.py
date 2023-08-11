@@ -18,8 +18,8 @@ from .base import Base_task, default_method_decorator
 class DcomAutomation(Base_task):
     def __init__(self, emulator:SeleniumEmulator, user_data:dict):
         super(DcomAutomation, self).__init__(emulator, user_data)
-        self.homePageDCOM = ''
-        self.emulator.goto_url(self.homePageDCOM, delay=5.0)
+        self.home_url = ''
+        self.emulator.goto_url(self.home_url)
     
     @default_method_decorator(Base_task.default_method)
     def click_connect_button(self):
