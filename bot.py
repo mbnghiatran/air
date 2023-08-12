@@ -23,7 +23,7 @@ def run_once(user_info, selenium_config):
     user = User(user_info, selenium_config)
     for task_name in ['twitter',]: 
         user.add_task(task_name)
-        user.end_all()
+    user.end_all()
     return
 
 
@@ -32,11 +32,11 @@ if __name__ == '__main__':
     all_user = get_all_user(args.excel_file_path)
     portable2profile = filter_user(all_user, args.chrome_portable_exe_paths)
     for portable_path, profile in portable2profile.items():
+        if profile.get('STT') == 251: continue
         selenium_config = {
             "headless": True,
             "portable_path": portable_path,
             "executable_path": Path(args.executable_path),
         }
         run_once(profile, selenium_config)
-        break
 

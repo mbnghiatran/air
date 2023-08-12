@@ -20,11 +20,14 @@ class SeleniumEmulator:
         chrome_options.add_argument('--no-sandbox')
         chrome_options.add_argument('--disable-gpu')
         chrome_options.add_argument('--disable-dev-shm-usage')
-        chrome_options.add_argument('--remote-debugging-port=9222')
+        chrome_options.add_argument("--remote-debugging-port=9222")
         if config.get("headless"):
             portable_path = config.get("portable_path")
+            executable_path = config.get("executable_path")
+            chrome_options.binary_location = str(portable_path / 'App/Chrome-bin/chrome.exe')
             chrome_options.binary_location = str(portable_path / 'GoogleChromePortable.exe')
-            service = ChromeService(executable_path= str(config.get("executable_path")))
+            chrome_options.add_argument("--user-data-dir=" + f"{str(portable_path / 'Data/profile')}")
+            service = ChromeService(executable_path= str(executable_path))
             self.driver = Chrome(service=service, options=chrome_options)
         else:
             self.driver = Chrome(options=chrome_options)
