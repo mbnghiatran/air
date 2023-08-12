@@ -12,20 +12,22 @@ from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.chrome.service import Service as ChromeService
 
 class SeleniumEmulator:
-    def __init__(self, chrome_portable_exe_path=None, headless=True, **kwargs):
+    def __init__(self, config, **kwargs):
         chrome_options = ChromeOptions()
-        if headless:
-            chrome_options.add_argument('--headless=new')
-        if chrome_portable_exe_path:
-            chrome_options.binary_location = chrome_portable_exe_path
-
-        chrome_options.add_experimental_option(
-            "prefs", {
-                "download.default_directory": "/dev/null", 
-                "download.prompt_for_download": False, 
-            }
-        )
-        self.driver = Chrome(options = chrome_options)
+        chrome_options.add_argument('start-maximized')
+        chrome_options.add_argument('enable-automation')
+        chrome_options.add_argument('disable-infobars')
+        chrome_options.add_argument('--no-sandbox')
+        chrome_options.add_argument('--disable-gpu')
+        chrome_options.add_argument('--disable-dev-shm-usage')
+        chrome_options.add_argument('--remote-debugging-port=9222')
+        if config.get("headless"):
+            portable_path = config.get("portable_path")
+            chrome_options.binary_location = str(portable_path / 'GoogleChromePortable.exe')
+            service = ChromeService(executable_path= str(config.get("executable_path")))
+            self.driver = Chrome(service=service, options=chrome_options)
+        else:
+            self.driver = Chrome(options=chrome_options)
         self.actions = ActionChains(self.driver)
         self.driver.implicitly_wait(5.0)
         self.driver.set_page_load_timeout(10.0)

@@ -15,10 +15,9 @@ task_name = {
 }
 
 class User:
-    def __init__(self, user_info:dict, chrome_portable_exe_path:str='', headless=True):
+    def __init__(self, user_info:dict, selenium_config:dict={}):
         self.info = user_info
-        self.chrome_portable_exe_path = chrome_portable_exe_path
-        self.emulator = SeleniumEmulator(chrome_portable_exe_path, headless)
+        self.emulator = SeleniumEmulator(selenium_config)
         self.tasks = {}
 
     def add_task(self, name):

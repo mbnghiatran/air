@@ -1,4 +1,5 @@
 __pycache__/
 data/CHROME/
 .vscode/
-src/extension-crx
+src/extension-crx/
+*.zip
