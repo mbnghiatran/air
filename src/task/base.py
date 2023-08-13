@@ -25,7 +25,7 @@ class Base_task:
     def __init__(self, emulator:SeleniumEmulator, user_data:dict):
         self.user_data = user_data
         self.emulator = emulator
-        if self.emulator.get_current_url() not in ["chrome://new-tab-page/", "about:blank"]:
+        if self.emulator.get_current_url() not in ["chrome://new-tab-page/", "about:blank", "data:,"]:
             self.emulator.open_new_tab()
         self.task_tab = self.emulator.driver.current_window_handle
 

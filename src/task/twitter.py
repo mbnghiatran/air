@@ -35,6 +35,7 @@ class Twitter(Base_task):
         # input username
         username_input = self.emulator.find_element(By.CSS_SELECTOR, "input[name='text'][type='text']")
         self.emulator.send_keys(username_input, self.username)
+        time.sleep(0.5)
 
         # click next
         next_element = self.emulator.find_element(By.XPATH, "//span[text()='Next']")
