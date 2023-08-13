@@ -52,14 +52,28 @@ class Twitter(Base_task):
         return
 
     @default_method_decorator(Base_task.default_method)
-    def retweet(self, link):
+    def like(self):
+        like_btn = self.emulator.find_element(By.XPATH, "//div[@data-testid='like']")
+        like_btn.click()
+        return
+   
+    @default_method_decorator(Base_task.default_method)
+    def retweet(self):
+        retweet_icon = self.emulator.find_element(By.XPATH, "//div[@data-testid='retweet']")
+        retweet_icon.click()
+        # retweet confirm
+        retweet_confirm = self.emulator.find_element(By.XPATH, "//div[@data-testid='retweetConfirm']")
+        retweet_confirm.click()
         return
     
+    @default_method_decorator(Base_task.default_method)
+    def reply_tweet(self):
+        text = "7 Restaurants in Rome Locals Love " + [f"@{x['Twitter']}" for x in range(3)]
+        text_input_element = self.emulator.find_element(By.XPATH, "//div[@data-testid='tweetTextarea_0']")
+        self.emulator.send_keys(text_input_element, text)
+        return
+
     @default_method_decorator(Base_task.default_method)
     def follow(self, link):
-        return
-    
-    @default_method_decorator(Base_task.default_method)
-    def like(self, link):
         return
 
