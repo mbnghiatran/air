@@ -12,7 +12,7 @@ from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.chrome.service import Service as ChromeService
 
 class SeleniumEmulator:
-    def __init__(self, config, **kwargs):
+    def __init__(self, config:dict = {}, **kwargs):
         chrome_options = ChromeOptions()
         chrome_options.add_argument('start-maximized')
         chrome_options.add_argument('enable-automation')
@@ -20,16 +20,10 @@ class SeleniumEmulator:
         chrome_options.add_argument('--no-sandbox')
         chrome_options.add_argument('--disable-gpu')
         chrome_options.add_argument('--disable-dev-shm-usage')
-        if config.get("headless"):
-            portable_path = config.get("portable_path")
-            executable_path = config.get("executable_path")
-            chrome_options.binary_location = str(portable_path / 'GoogleChromePortable.exe')
-            chrome_options.add_argument("--user-data-dir=" + f"{str(portable_path / 'Data/profile')}")
-            chrome_options.add_argument("--remote-debugging-port=9222")
-            service = ChromeService(executable_path= str(executable_path))
-            self.driver = Chrome(service=service, options=chrome_options)
-        else:
-            self.driver = Chrome(options=chrome_options)
+        portable_path = config.get("portable_path")
+        if portable_path:
+            chrome_options.add_argument(f"--user-data-dir={str((portable_path / 'Data/profile').resolve())}")
+        self.driver = Chrome(options=chrome_options)
         self.actions = ActionChains(self.driver)
         self.driver.implicitly_wait(5.0)
         self.driver.set_page_load_timeout(10.0)
@@ -50,9 +44,12 @@ class SeleniumEmulator:
         self.driver.switch_to.new_window('tab')
 
     def goto_url(self, url:str, delay:float=3.0):
-        self.driver.get(url)
-        time.sleep(delay)
-
+        try:
+            self.driver.get(url)
+            time.sleep(delay)
+        except:
+            pass
+        
     def get_current_url(self):
         return self.driver.current_url
     

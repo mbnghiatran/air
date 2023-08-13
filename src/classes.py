@@ -15,15 +15,17 @@ task_name = {
 }
 
 class User:
-    def __init__(self, user_info:dict, selenium_config:dict={}):
+    def __init__(self, user_info:dict={}, selenium_config:dict={}):
         self.info = user_info
         self.emulator = SeleniumEmulator(selenium_config)
         self.tasks = {}
 
-    def add_task(self, name):
-        self.tasks[name] = task_name[name](self.emulator, self.info)
+    def add_task(self, tasks):
+        for task in tasks: 
+            self.tasks[task] = task_name[task](self.emulator, self.info)
+        return
 
-    def end_all(self):
+    def quit(self):
         self.emulator.quit()
 
 
