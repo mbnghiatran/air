@@ -1,8 +1,8 @@
 import time
 import logging
 logger = logging.getLogger(__name__)
+from tkinter import Tk
 
-from copy import deepcopy
 from selenium.webdriver import Chrome, ChromeOptions
 from selenium.common.exceptions import *
 from selenium.webdriver.common.by import By
@@ -56,4 +56,7 @@ class SeleniumEmulator:
     def send_keys(self, element, text):
         element.clear()
         element.send_keys(text)
+
+    def get_text_from_clipboard(self):
+        return Tk().clipboard_get()
         
