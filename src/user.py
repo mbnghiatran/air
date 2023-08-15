@@ -20,11 +20,6 @@ class User:
         self.tasks = {}
         self.info = user_info
         self.emulator = SeleniumEmulator(selenium_config)
-        extension_list = self.emulator.extension_list
-        for extension in extension_list:
-            if self.tasks.get(extension) is None:
-                self.tasks[extension] = task_name[extension](self.emulator,
-                                                              self.info, IExtension.get(extension))
 
     def add_task(self, tasks):
         for task in tasks:

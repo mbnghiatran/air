@@ -39,7 +39,7 @@ if __name__ == '__main__':
         list_user_config = [{
             "user_info": _[1],
             "headless": True,
-            # "portable_path": _[0],
+            "portable_path": _[0],
         } for _ in portable2profile[i:(i+args.user_per_group)]]
         with Pool(processes=1) as pool:
             results = [pool.apply_async(run_once, args=(x,i)) for i, x in enumerate(list_user_config)]

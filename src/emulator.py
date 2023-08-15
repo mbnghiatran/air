@@ -22,9 +22,6 @@ class SeleniumEmulator:
         chrome_options.add_argument('--no-sandbox')
         chrome_options.add_argument('--disable-gpu')
         chrome_options.add_argument('--disable-dev-shm-usage')
-        self.extension_list = config.get('extension_list', [])
-        for extension in self.extension_list:
-            chrome_options.add_extension(f"data/extensions/{IExtension.get(extension).fileName}")
         portable_path = config.get("portable_path")
         if portable_path:
             chrome_options.add_argument(f"--user-data-dir={str((portable_path / 'Data/profile').resolve())}")
