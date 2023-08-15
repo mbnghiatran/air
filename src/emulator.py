@@ -1,3 +1,4 @@
+
 import time
 import logging
 logger = logging.getLogger(__name__)
@@ -10,6 +11,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.chrome.service import Service as ChromeService
+from .constant import IExtension
 
 class SeleniumEmulator:
     def __init__(self, config:dict = {}, **kwargs):
@@ -20,6 +22,9 @@ class SeleniumEmulator:
         chrome_options.add_argument('--no-sandbox')
         chrome_options.add_argument('--disable-gpu')
         chrome_options.add_argument('--disable-dev-shm-usage')
+        self.extension_list = config.get('extension_list', [])
+        for extension in self.extension_list:
+            chrome_options.add_extension(f"data/extensions/{IExtension.get(extension).fileName}")
         portable_path = config.get("portable_path")
         if portable_path:
             chrome_options.add_argument(f"--user-data-dir={str((portable_path / 'Data/profile').resolve())}")

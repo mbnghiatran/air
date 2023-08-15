@@ -22,12 +22,15 @@ def default_method_decorator(default_method):
     return decorator
 
 class Base_task:
-    def __init__(self, emulator:SeleniumEmulator, user_data:dict):
+    def __init__(self, emulator:SeleniumEmulator, user_data:dict, **kwargs):
         self.user_data = user_data
         self.emulator = emulator
         if self.emulator.get_current_url() not in ["chrome://new-tab-page/", "about:blank", "data:,"]:
             self.emulator.open_new_tab()
         self.task_tab = self.emulator.driver.current_window_handle
+
+    def get_page_extension(self):
+        return f"chrome-extension://{self.extension_detail.id}/{self.extension_detail.page}"
 
     def default_method(self):
         if self.emulator.driver.current_window_handle != self.task_tab:

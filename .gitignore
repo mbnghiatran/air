@@ -1,6 +1,8 @@
 __pycache__/
-data/CHROME/*
 .vscode/
+data/CHROME/*
 src/extension-crx/
 *.zip
+*.crx
+*.pem
 !chromedriver.exe

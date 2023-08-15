@@ -1,6 +1,4 @@
-
 from enum import Enum
-
 
 class EExtensionName(Enum):
     NOPE_CHA = 'nope-cha'
@@ -37,54 +35,26 @@ class Extension:
         for key in info:
             setattr(self, key, info.get(key))
 
-IExtension = [ 
-    Extension({
+IExtension = {
+    "metamask": Extension({
+        "id": 'nkbihfbeogaeaoehlefnkodbefgpgknn',
+        "name": "metamask",
+        "fileName": 'metamask.crx',
+        "page": 'home.html',
+        "installManual": True,
+    }),
+    "nopecha": Extension({
         "id": 'dknlfmjaanfblgfdfebhijalfmhmjjjo',
-        "name": EExtensionName.NOPE_CHA,
+        "name": "nopecha",
         "fileName": 'nopecha.crx',
         "page": 'home.html',
         "installManual": False,
     }),
-    Extension({
+    "twocapcha": Extension({
         "id": 'ifibfemgeogfhoebkmokieepdoobkbpo',
-        "name": EExtensionName.TWOCAPCHA,
+        "name": "twocapcha",
         "fileName": 'twocapcha.crx',
         "page": 'home.html',
         "installManual": False,
     }),
-    Extension({
-        "id": 'nkbihfbeogaeaoehlefnkodbefgpgknn',
-        "name": EExtensionName.META_MASK,
-        "fileName": 'meta_mask.crx',
-        "page": 'home.html',
-        "installManual": True,
-    }),
-    Extension({
-        "id": 'bfnaelmomeimhlpmgjnjophhpkkoljpa',
-        "name": EExtensionName.PHANTOM,
-        "fileName": 'phantom.crx',
-        "page": 'home.html',
-        "installManual": False,
-    }),
-    Extension({
-        "id": 'dlcobpjiigpikoobohmabehhmhfoodbb',
-        "name": EExtensionName.ARGENT_X,
-        "fileName": 'argent_x.crx',
-        "page": 'lock-screen',
-        "installManual": False,
-    }),
-    Extension({
-        "id": 'opcgpfmipidbgpenhmajoajpbobppdil',
-        "name": EExtensionName.SUI,
-        "fileName": 'sui_wallet.crx',
-        "page": 'ui.html',
-        "installManual": False,
-    }),
-    Extension({
-        "id": 'khpkpbbcccdmmclmpigdgddabeilkdpd',
-        "name": EExtensionName.SUIET,
-        "fileName": 'suiet_wallet.crx',
-        "page": 'home.html',
-        "installManual": False,
-    }),
-]
+} 
