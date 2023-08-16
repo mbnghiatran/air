@@ -15,79 +15,78 @@ from ..emulator import SeleniumEmulator
 from .base import Base_task, default_method_decorator
 
 class MetaMask(Base_task):
-    def __init__(self, emulator:SeleniumEmulator, user_data:dict, extension_detail):
+    def __init__(self, emulator:SeleniumEmulator, user_data:dict, task_info):
         super(MetaMask, self).__init__(emulator, user_data)
-        self.extension_detail = extension_detail
-        self.password = ''
-
-    @default_method_decorator
-    def close_pop_over(self):
-        try:
-            WebDriverWait(self.driver, 5).until(EC.url_contains("home.html"))
-            close_pop_over_button = self.emulator.find_element(By.CSS_SELECTOR, "button[data-testid='popover-close']")
-            close_pop_over_button.click()
-        except:
-            pass
-
-    @default_method_decorator
-    def create_new_wallet_out_signin(self):
-        return
-    
-    @default_method_decorator
-    def createNewWallet(self):
-        return
-
-    @default_method_decorator
-    def handle_create_wallet_Metamask(self):
+        self.extension_detail = task_info.get("extension_detail")
+        self.password = "Mkmk1212!"
         self.open_page()
         if not self.is_wallet_created_before():
-            self.createNewWalletOutSignIn()
-        self.enter_password()
-        self.close_pop_over()
-        return
+            self.id = self.create_new_wallet()
 
-    @default_method_decorator
-    def get_wallet_address_Metamask(self):
-        self.open_page()
-        self.enter_password()
-        self.close_pop_over()
-        copy_button = self.emulator.find_element(By.CLASS_NAME, "selected-account__clickable")
-        copy_button.click()
-        address = self.teget_text_from_clipboard()
-        return address
-
-    @default_method_decorator
-    def open_page(self,):
+    @default_method_decorator(Base_task.default_method)
+    def open_page(self):
         self.emulator.goto_url(self.get_page_extension())
-        return
-    
-    @default_method_decorator
-    def enter_password(self):
-        WebDriverWait(self.driver, 5).until(EC.url_contains("unlock"))
-        input_password = self.emulator.find_element(By.ID, "password")
-        self.emulator.send_keys(input_password, password = self.password)
 
-        unlock_button = self.emulator.find_element(By.CSS_SELECTOR, "button[type='submit']")
-        unlock_button.click()
-        return
-
-    @default_method_decorator
+    @default_method_decorator(Base_task.default_method)
     def is_wallet_created_before(self):
         try:
-            WebDriverWait(self.driver, 5).until(EC.url_contains("#initialize/welcome"))
+            WebDriverWait(self.driver, 10).until(EC.url_contains("#onboarding/welcome"))
             return False
         except:
             return True
 
-    @default_method_decorator
-    def login(self):
-        return 
+    @default_method_decorator(Base_task.default_method)
+    def create_new_wallet(self):
+        checkbox_element = self.emulator.find_element(By.XPATH, "//input[@id='onboarding__terms-checkbox']")
+        checkbox_element.click()
 
-    @default_method_decorator
-    def validate_unlock_success(self):
-        element = self.emulator.find_element(By.ID, "password-helper-text")
-        if element:
-            logger.info("Incorrect password entered.")
-        else:
-            logger.info("Password entered successfully!")
-            
+        create_btn = self.emulator.find_element(By.XPATH, "//button[@data-testid='onboarding-create-wallet']")
+        create_btn.click()
+
+        agree_btn = self.emulator.find_element(By.XPATH, "//button[@data-testid='metametrics-i-agree']")
+        agree_btn.click()
+
+        password = self.emulator.find_element(By.XPATH, "//input[@data-testid='create-password-new']")
+        password.send_keys(self.password)
+
+        confirm_password = self.emulator.find_element(By.XPATH, "//input[@data-testid='create-password-confirm']")
+        confirm_password.send_keys(self.password)
+
+        password_checkbox = self.emulator.find_element(By.XPATH, "//input[@data-testid='create-password-terms']")
+        password_checkbox.click()
+
+        create_wallet_btn = self.emulator.find_element(By.XPATH, "//button[@data-testid='create-password-wallet']")
+        create_wallet_btn.click()
+
+        remind_later_btn = self.emulator.find_element(By.XPATH, "//button[@data-testid='secure-wallet-later']")
+        remind_later_btn.click()
+
+        skip_security_checkbox = self.emulator.find_element(By.XPATH, "//input[@data-testid='skip-srp-backup-popover-checkbox']")
+        skip_security_checkbox.click()
+
+        skip_btn = self.emulator.find_element(By.XPATH, "//button[@data-testid='skip-srp-backup']")
+        skip_btn.click()
+
+        got_it_btn = self.emulator.find_element(By.XPATH, "//button[@data-testid='onboarding-complete-done']")
+        got_it_btn.click()
+
+        next_btn = self.emulator.find_element(By.XPATH, "//button[@data-testid='pin-extension-next']")
+        next_btn.click()
+
+        done_btn = self.emulator.find_element(By.XPATH, "//button[@data-testid='pin-extension-done']")
+        done_btn.click()
+        WebDriverWait(self.driver, 10).until(EC.url_contains(self.get_page_extension()))
+        self.close_pop_over()
+        return self.get_address_id()
+    
+    def get_address_id(self, ):
+        copy_address_btn = self.emulator.find_element(By.XPATH, "//button[@data-testid='address-copy-button-text']")
+        copy_address_btn.click()
+        return self.emulator.get_text_from_clipboard()
+
+    @default_method_decorator(Base_task.default_method)
+    def close_pop_over(self):
+        close_pop_over_button = self.emulator.find_element(By.CSS_SELECTOR, "button[data-testid='popover-close']")
+        close_pop_over_button.click()
+
+             

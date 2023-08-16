@@ -19,12 +19,15 @@ class User:
     def __init__(self, user_info:dict={}, selenium_config:dict={}):
         self.tasks = {}
         self.info = user_info
-        self.emulator = SeleniumEmulator(selenium_config)
+        self.emulator = SeleniumEmulator(portable_path = user_info.get('portable_path'), config=selenium_config)
 
     def add_task(self, tasks):
         for task in tasks:
             if self.tasks.get(task) is None:
-                self.tasks[task] = task_name[task](self.emulator, self.info)
+                task_info = {
+                    "extension_detail": IExtension.get(task)
+                }
+                self.tasks[task] = task_name[task](self.emulator, self.info, task_info)
         return
 
     def quit(self):

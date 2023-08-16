@@ -11,7 +11,7 @@ from ..emulator import SeleniumEmulator
 from .base import Base_task, default_method_decorator
 
 class Twitter(Base_task):
-    def __init__(self, emulator:SeleniumEmulator, user_data:dict):
+    def __init__(self, emulator:SeleniumEmulator, user_data:dict, task_info):
         super(Twitter, self).__init__(emulator, user_data)
         self.username = self.user_data.get("Twitter")
         self.password = self.user_data.get("Pass Twitter")

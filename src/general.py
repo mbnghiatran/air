@@ -28,5 +28,5 @@ def filter_user(all_user, chrome_portable_exe_paths):
     for row in all_user:
         portable_path = Path(chrome_portable_exe_paths) / str(row["STT"])
         if portable_path.exists():
-            users[portable_path] = row
-    return users
+            row["portable_path"] = portable_path
+    return all_user

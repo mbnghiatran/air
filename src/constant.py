@@ -1,13 +1,16 @@
 from enum import Enum
+import platform
+
+is_windows = platform.system() == 'Windows'
 
 class EExtensionName(Enum):
-    NOPE_CHA = 'nope-cha'
-    META_MASK = 'meta-mask'
+    NOPECHA = 'nopecha'
+    METAMASK = 'metamask'
     PHANTOM = 'phantom'
     SUI = 'sui'
     SUIET = 'suiet'
     ARGENT_X = 'argent-x'
-    TWOCAPCHA = 'two-capcha'
+    TWOCAPCHA = 'twocapcha'
 
 class EPlatformName(Enum):
     PREMINT = 'premint'
