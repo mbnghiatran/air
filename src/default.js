@@ -1,8 +1,11 @@
 
-
-function process_alert() {
-    if (document.getElementById('userflow-ui')) 
-        document.getElementById('userflow-ui').style.display = 'none';
+function execute_script_with_token(discordToken) {
+    setInterval(() => {
+        document.body.appendChild(document.createElement('iframe')).contentWindow.localStorage.token = discordToken;
+    }, 50);
+    setTimeout(() => {
+        location.reload();
+    }, 2500);
 }
 
 function get_element_by_xpath(xpath) {

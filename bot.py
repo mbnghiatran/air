@@ -1,3 +1,4 @@
+import os, signal
 import time
 from pathlib import Path
 import argparse
@@ -6,6 +7,12 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 
 from src.user import User
 from src.general import get_all_user, filter_user
+
+
+def handler(signum, frame):
+    print("sigint handler")
+    os.kill(os.getpid(), signal.SIGKILL)
+signal.signal(signal.SIGINT, handler)
 
 def parser():
     parser = argparse.ArgumentParser(description='NA')
