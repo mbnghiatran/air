@@ -3,16 +3,14 @@ import pandas as pd
 from enum import Enum
 from .emulator import SeleniumEmulator
 from .constant import IExtension
-from .task.gmail import Gmail
-from .task.twitter import Twitter
-from .task.metamask import MetaMask
-from .task.dcom import DcomAutomation
+from .task import DcomAutomation, Gmail, Discord, Twitter, MetaMask
 
 task_name = {
     "dcom": DcomAutomation,
     "gmail": Gmail,
     "twitter": Twitter,
     "metamask": MetaMask,
+    "discord": Discord
 }
 
 class User:

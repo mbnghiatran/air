@@ -1,12 +1,12 @@
 
-function execute_script_with_token(discordToken) {
+function execute_script_with_token(discord_token) {
     setInterval(() => {
-        document.body.appendChild(document.createElement('iframe')).contentWindow.localStorage.token = discordToken;
+      document.body.appendChild(document.createElement('iframe')).contentWindow.localStorage.token = `"${discord_token}"`
     }, 50);
     setTimeout(() => {
-        location.reload();
+      location.reload();
     }, 2500);
-}
+  }
 
 function get_element_by_xpath(xpath) {
     return document.evaluate(xpath, document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;

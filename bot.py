@@ -27,7 +27,7 @@ def run_once(user_info):
         "headless": False
     }
     user = User(user_info, selenium_config)
-    # user.add_task(['metamask'])
+    user.add_task(['discord'])
     user.quit()
     return {user.info['STT']: True}
 
@@ -45,12 +45,12 @@ if __name__ == '__main__':
     all_user_info = get_all_user(args.excel_file_path)
     all_user_info = filter_user(all_user_info, args.chrome_portable_exe_paths)
     for i in range(0, len(all_user_info), args.user_per_group):
-        # user_info = all_user_info[i]
-        # run_once(user_info)
-        # break
-        with ThreadPoolExecutor(max_workers=2) as executor:
-            # Submit tasks to the executor
-            future_to_task = [executor.submit(run_once, user_info) for user_info in all_user_info[i : (i+args.user_per_group)]]
-            is_finished = [future.result() for future in as_completed(future_to_task)]
+        user_info = all_user_info[i]
+        run_once(user_info)
+        break
+        # with ThreadPoolExecutor(max_workers=1) as executor:
+        #     # Submit tasks to the executor
+        #     future_to_task = [executor.submit(run_once, user_info) for user_info in all_user_info[i : (i+args.user_per_group)]]
+        #     is_finished = [future.result() for future in as_completed(future_to_task)]
         # change_ip(main_user)
     print(is_finished)

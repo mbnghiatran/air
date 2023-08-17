@@ -13,25 +13,23 @@ from .base import Base_task, default_method_decorator
 class Discord(Base_task):
     def __init__(self, emulator:SeleniumEmulator, user_data:dict, task_info):
         super(Discord, self).__init__(emulator, user_data)
-        self.username = self.user_data.get("Discord")
-        self.password = self.user_data.get("Pass Discord")
         self.login_url = "https://discord.com/login"
         self.login_success_url = "https://discord.com/channels/@me"
-        self.emulator.goto_url(self.url)
+        self.emulator.goto_url(self.login_success_url)
+        self.discord_token = self.user_data.get("Token Discord")
         if not self.is_login_successful():
             self.login()
 
     @default_method_decorator(Base_task.default_method)
     def is_login_successful(self):
-        try:
-            WebDriverWait(self.driver, 10).until(EC.url_contains(self.login_success_url))
-            return True
-        except:
+        current_url = self.emulator.get_current_url()
+        if current_url.startswith(self.login_url):
             return False
+        return True
     
     @default_method_decorator(Base_task.default_method)
-    def login(self, token):
-        self.driver.execute_script(self.emulator.INIT_SCRIPT + 'execute_script_with_token(arguments[0])', token)
+    def login(self):
+        self.driver.execute_script(self.emulator.INIT_SCRIPT + 'execute_script_with_token(arguments[0])', self.discord_token)
         WebDriverWait(self.driver, 10).until(EC.url_contains(self.login_success_url))
         return
 
