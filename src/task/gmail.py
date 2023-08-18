@@ -31,7 +31,7 @@ class Gmail(Base_task):
     @default_method_decorator(Base_task.default_method)
     def login(self):
         try: 
-            account_element = self.emulator.find_element(By.CSS_SELECTOR, f"div[data-identifier='{self.username}']")
+            account_element = self.emulator.find_element(By.XPATH, f"//div[@data-identifier='{self.username}']")
             if account_element: # have logged in before
                 account_element.click()
             else:

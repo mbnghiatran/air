@@ -86,7 +86,7 @@ class MetaMask(Base_task):
 
     @default_method_decorator(Base_task.default_method)
     def close_pop_over(self):
-        close_pop_over_button = self.emulator.find_element(By.CSS_SELECTOR, "button[data-testid='popover-close']")
+        close_pop_over_button = self.emulator.find_element(By.XPATH, "//button[@data-testid='popover-close']")
         close_pop_over_button.click()
 
              

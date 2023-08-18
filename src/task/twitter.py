@@ -30,10 +30,10 @@ class Twitter(Base_task):
     
     @default_method_decorator(Base_task.default_method)
     def login(self):
-        sign_in_element = self.emulator.find_element(By.CSS_SELECTOR, "a[data-testid='loginButton']")
+        sign_in_element = self.emulator.find_element(By.XPATH, "//a[@data-testid='loginButton']")
         sign_in_element.click()
         # input username
-        username_input = self.emulator.find_element(By.CSS_SELECTOR, "input[name='text'][type='text']")
+        username_input = self.emulator.find_element(By.XPATH, "//input[@type='text']")
         self.emulator.send_keys(username_input, self.username)
         time.sleep(0.5)
 
@@ -42,7 +42,7 @@ class Twitter(Base_task):
         next_element.click()
 
         # input password
-        password_input = self.emulator.find_element(By.CSS_SELECTOR, "input[name='password'][type='password']")
+        password_input = self.emulator.find_element(By.XPATH, "input[@type='password']")
         self.emulator.send_keys(password_input, self.password)
 
         # submit
