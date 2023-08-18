@@ -20,6 +20,8 @@ def parser():
     args = parser.parse_args()
     return args
 
+
+    
 def run_once(user_info, config):
     is_finished = False
     try: 
@@ -27,8 +29,10 @@ def run_once(user_info, config):
         user.run()
         user.quit()
         is_finished = True
+    except Exception as e:
+        print(e)
     finally:
-        return {user.info['STT']: is_finished}
+        return {user_info['STT']: is_finished}
 
 def init_main_user():
     user = User()
@@ -42,14 +46,15 @@ if __name__ == '__main__':
     config = Config(args.config)
     all_user_info = get_all_user(config.excel_file_path)
     all_user_info = filter_user(all_user_info, config.chrome_portable_exe_paths)
-    main_user = init_main_user()
+    # main_user = init_main_user()
     for i in range(0, len(all_user_info), config.user_per_group):
         # user_info = all_user_info[i]
         # run_once(user_info, config)
-        # change_ip(main_user)
         # break
         with ProcessPoolExecutor(max_workers=2) as executor:
             # Submit tasks to the executor
             future_to_task = [executor.submit(run_once, user_info, config) for user_info in all_user_info[i : (i+config.user_per_group)]]
             is_finished = [future.result() for future in as_completed(future_to_task)]
-    main_user.quit()
+    #     change_ip(main_user)
+    # main_user.quit()
+    print(is_finished)

@@ -79,7 +79,7 @@ class MetaMask(Base_task):
         self.close_pop_over()
         return self.get_address_id()
     
-    def get_address_id(self, ):
+    def get_address_id(self):
         copy_address_btn = self.emulator.find_element(By.XPATH, "//button[@data-testid='address-copy-button-text']")
         copy_address_btn.click()
         return self.emulator.get_text_from_clipboard()
@@ -89,4 +89,12 @@ class MetaMask(Base_task):
         close_pop_over_button = self.emulator.find_element(By.XPATH, "//button[@data-testid='popover-close']")
         close_pop_over_button.click()
 
-             
+    @default_method_decorator(Base_task.default_method)
+    def unlock_wall(self):
+        WebDriverWait(self.driver, 10).until(EC.url_contains("#unlock"))
+        input_password = self.emulator.find_element(By.XPATH, "//input[@id='password']")
+        self.emulator.send_keys(input_password, self.defaultPassword)
+
+        unlock_button = self.emulator.find_element(By.XPATH, "//button[@type='submit']")
+        unlock_button.click()
+        return

@@ -1,10 +1,10 @@
-chrome_portable_exe_paths: ./data/CHROME
+chrome_portable_exe_paths: D:\nghia\air\data\CHROME
 excel_file_path: ./data/DataTest_Dat.csv
 user_per_group: 2 # number of user's run simultaneously
 change_per_group: 2 # change ip after number of user's run
 task:
-  metamask:
-  twitter:
-    - like
+  gmail:
+  # twitter:
+  #   - like
+  # metamask:
   # discord:
-  # gmail:

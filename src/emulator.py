@@ -24,12 +24,11 @@ class SeleniumEmulator:
         chrome_options.add_argument('--no-sandbox')
         chrome_options.add_argument('--disable-gpu')
         chrome_options.add_argument('--disable-dev-shm-usage')
-        if portable_path and is_windows:
-            portable_path = Path(portable_path)
+        if not is_windows:
+            chrome_options.add_extension("./data/extension_crx/metamask_10.34.3_0.crx")
+        elif portable_path:
             chrome_options.add_argument(f"--remote-debugging-port={portable_path.stem}")
             chrome_options.add_argument(f"--user-data-dir={str((portable_path / 'Data/profile').resolve())}")
-        else:
-            chrome_options.add_extension("./data/extension_crx/metamask_10.34.3_0.crx")
         self.driver = Chrome(options=chrome_options)
         time.sleep(3.0)
         self.actions = ActionChains(self.driver)
@@ -45,7 +44,7 @@ class SeleniumEmulator:
     def find_element(self, by:callable, value:str):
         try:
             # element =  self.driver.find_element(by, value)
-            element =  WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((by, value)))
+            element =  WebDriverWait(self.driver, 10).until(EC.element_to_be_clickable((by, value)))
             time.sleep(0.5)
             return element
         except:

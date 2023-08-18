@@ -17,7 +17,7 @@ class Twitter(Base_task):
         self.password = self.user_data.get("Pass Twitter")
         self.url = "https://twitter.com/?lang=en"
         self.home_url = "https://twitter.com/home"
-        self.emulator.goto_url(self.url)
+        self.emulator.goto_url(self.url, delay=1.0)
         if not self.is_login_successful():
             self.login()
 

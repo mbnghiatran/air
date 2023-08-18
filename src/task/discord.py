@@ -15,7 +15,7 @@ class Discord(Base_task):
         super(Discord, self).__init__(emulator, user_data)
         self.login_url = "https://discord.com/login"
         self.login_success_url = "https://discord.com/channels/@me"
-        self.emulator.goto_url(self.login_success_url)
+        self.emulator.goto_url(self.login_success_url, delay=1.0)
         self.discord_token = self.user_data.get("Token Discord")
         if not self.is_login_successful():
             self.login()

@@ -17,7 +17,7 @@ class Gmail(Base_task):
         self.password = self.user_data.get("Pass Mail")
         self.service_login_url = "https://accounts.google.com/ServiceLogin"
         self.my_account_url = "https://myaccount.google.com"
-        self.emulator.goto_url(self.service_login_url, delay=10.0)
+        self.emulator.goto_url(self.service_login_url, delay=1.0)
         if not self.is_login_successful():
             self.login()
 
