@@ -11,7 +11,7 @@ from ..emulator import SeleniumEmulator
 from .base import Base_task, default_method_decorator
 
 class Discord(Base_task):
-    def __init__(self, emulator:SeleniumEmulator, user_data:dict, task_info):
+    def __init__(self, emulator:SeleniumEmulator, user_data:dict, task_info:dict):
         super(Discord, self).__init__(emulator, user_data)
         self.login_url = "https://discord.com/login"
         self.login_success_url = "https://discord.com/channels/@me"
@@ -32,20 +32,3 @@ class Discord(Base_task):
         self.driver.execute_script(self.emulator.INIT_SCRIPT + 'execute_script_with_token(arguments[0])', self.discord_token)
         WebDriverWait(self.driver, 10).until(EC.url_contains(self.login_success_url))
         return
-
-    @default_method_decorator(Base_task.default_method)
-    def like(self):
-        return
-   
-    @default_method_decorator(Base_task.default_method)
-    def retweet(self):
-        return
-    
-    @default_method_decorator(Base_task.default_method)
-    def reply_tweet(self):
-        return
-
-    @default_method_decorator(Base_task.default_method)
-    def follow(self, link):
-        return
-

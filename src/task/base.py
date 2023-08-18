@@ -36,6 +36,12 @@ class Base_task:
         if self.emulator.driver.current_window_handle != self.task_tab:
             self.emulator.driver.switch_to.window(self.task_tab)
 
+    def run(self, steps):
+        if steps:
+            for func in steps:
+                pass 
+        return
+
     @property
     def driver(self):
         return self.emulator.driver

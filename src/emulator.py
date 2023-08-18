@@ -44,8 +44,9 @@ class SeleniumEmulator:
 
     def find_element(self, by:callable, value:str):
         try:
-            element =  WebDriverWait(self.driver, 10).until(EC.element_to_be_clickable((by, value)))
             # element =  self.driver.find_element(by, value)
+            element =  WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((by, value)))
+            time.sleep(0.5)
             return element
         except:
             return None

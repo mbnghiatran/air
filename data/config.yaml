@@ -1,0 +1,10 @@
+chrome_portable_exe_paths: ./data/CHROME
+excel_file_path: ./data/DataTest_Dat.csv
+user_per_group: 2 # number of user's run simultaneously
+change_per_group: 2 # change ip after number of user's run
+task:
+  metamask:
+  twitter:
+    - like
+  # discord:
+  # gmail:

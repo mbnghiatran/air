@@ -14,17 +14,24 @@ task_name = {
 }
 
 class User:
-    def __init__(self, user_info:dict={}, selenium_config:dict={}):
+    def __init__(self, user_info:dict={}, config:dict={}):
         self.tasks = {}
         self.info = user_info
-        self.emulator = SeleniumEmulator(portable_path = user_info.get('portable_path'), config=selenium_config)
+        self.config = config
+        self.emulator = SeleniumEmulator(portable_path = user_info.get('portable_path'), config=config)
+        if config:
+            self.add_task(config.task.keys())
+
+    def run(self):
+        for task_name, task in self.tasks:
+            task.run(self.config.task.get(task_name))
+        return
 
     def add_task(self, tasks):
         for task in tasks:
             if self.tasks.get(task) is None:
-                task_info = {
-                    "extension_detail": IExtension.get(task)
-                }
+                print(f"User {self.info['STT']}, Init {task}")
+                task_info = {"extension_detail": IExtension.get(task), }
                 self.tasks[task] = task_name[task](self.emulator, self.info, task_info)
         return
 

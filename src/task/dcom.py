@@ -16,7 +16,7 @@ from .base import Base_task, default_method_decorator
 
 
 class DcomAutomation(Base_task):
-    def __init__(self, emulator:SeleniumEmulator, user_data:dict):
+    def __init__(self, emulator:SeleniumEmulator, user_data:dict, task_info:dict):
         super(DcomAutomation, self).__init__(emulator, user_data)
         self.home_url = 'http://192.168.10.1/html/index.html?version=22.001.34.02.11'
         self.emulator.goto_url(self.home_url)

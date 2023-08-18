@@ -15,7 +15,7 @@ from ..emulator import SeleniumEmulator
 from .base import Base_task, default_method_decorator
 
 class MetaMask(Base_task):
-    def __init__(self, emulator:SeleniumEmulator, user_data:dict, task_info):
+    def __init__(self, emulator:SeleniumEmulator, user_data:dict, task_info:dict):
         super(MetaMask, self).__init__(emulator, user_data)
         self.extension_detail = task_info.get("extension_detail")
         self.password = "Mkmk1212!"
