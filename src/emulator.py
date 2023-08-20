@@ -33,6 +33,8 @@ class SeleniumEmulator:
                 browser_executable_path = browser_executable_path,
                 version_main=111,
             )
+        else:
+            self.driver = uc.Chrome()
         time.sleep(3.0)
         self.actions = ActionChains(self.driver)
         self.driver.implicitly_wait(5.0)
