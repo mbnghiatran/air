@@ -18,9 +18,7 @@ class User:
         self.tasks = {}
         self.info = user_info
         self.config = config
-        self.emulator = SeleniumEmulator(portable_path = user_info.get('portable_path'), config=config)
-        if config:
-            self.add_task(config.task.keys())
+        self.emulator = SeleniumEmulator(portable_path = user_info.get('portable_path'), config=config)            
 
     def run(self):
         for task_name, task in self.tasks:
@@ -31,7 +29,10 @@ class User:
         for task in tasks:
             if self.tasks.get(task) is None:
                 print(f"User {self.info['STT']}, Init {task}")
-                task_info = {"extension_detail": IExtension.get(task), }
+                task_info = {
+                    "extension_detail": IExtension.get(task), 
+                    "dcom_url": self.config.dcom_url, 
+                }
                 self.tasks[task] = task_name[task](self.emulator, self.info, task_info)
         return
 

@@ -18,11 +18,11 @@ from .base import Base_task, default_method_decorator
 class DcomAutomation(Base_task):
     def __init__(self, emulator:SeleniumEmulator, user_data:dict, task_info:dict):
         super(DcomAutomation, self).__init__(emulator, user_data)
-        self.home_url = 'http://192.168.10.1/html/index.html?version=22.001.34.02.11'
+        self.home_url = task_info.get('dcom_url')
         self.emulator.goto_url(self.home_url)
     
     @default_method_decorator(Base_task.default_method)
     def click_connect_button(self):
-        button = self.emulator.find_element(By.ID, "h_connect_btn")
+        button = self.emulator.find_element(By.XPATH, "//button[@id='home_connect_btn']")
         button.click()
-        
+        time.sleep(5.0)
