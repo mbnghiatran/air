@@ -51,7 +51,7 @@ if __name__ == '__main__':
         # user_info = all_user_info[i]
         # run_once(user_info, config)
         # break
-        with ProcessPoolExecutor(max_workers=2) as executor:
+        with ProcessPoolExecutor(max_workers=1) as executor:
             # Submit tasks to the executor
             future_to_task = [executor.submit(run_once, user_info, config) for user_info in all_user_info[i : (i+config.user_per_group)]]
             is_finished = [future.result() for future in as_completed(future_to_task)]

@@ -13,23 +13,26 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.chrome.service import Service as ChromeService
+import undetected_chromedriver as uc
 from .constant import is_windows
+
+
 
 class SeleniumEmulator:
     def __init__(self, portable_path = None, config:dict = {}, **kwargs):
         chrome_options = ChromeOptions()
-        chrome_options.add_argument('start-maximized')
-        chrome_options.add_argument('enable-automation')
-        chrome_options.add_argument('disable-infobars')
-        chrome_options.add_argument('--no-sandbox')
-        chrome_options.add_argument('--disable-gpu')
-        chrome_options.add_argument('--disable-dev-shm-usage')
         if not is_windows:
             chrome_options.add_extension("./data/extension_crx/metamask_10.34.3_0.crx")
+            self.driver = uc.Chrome(options=chrome_options)
         elif portable_path:
-            chrome_options.add_argument(f"--remote-debugging-port={portable_path.stem}")
-            chrome_options.add_argument(f"--user-data-dir={str((portable_path / 'Data/profile').resolve())}")
-        self.driver = Chrome(options=chrome_options)
+            user_data_dir = str((portable_path / 'Data/profile').resolve())
+            browser_executable_path = str((portable_path / 'GoogleChromePortable.exe').resolve())
+            self.driver = uc.Chrome(
+                options=chrome_options,
+                user_data_dir = user_data_dir,
+                browser_executable_path = browser_executable_path,
+                version_main=111,
+            )
         time.sleep(3.0)
         self.actions = ActionChains(self.driver)
         self.driver.implicitly_wait(5.0)
@@ -41,10 +44,10 @@ class SeleniumEmulator:
     def quit(self, ):
         self.driver.quit()
 
-    def find_element(self, by:callable, value:str):
+    def find_element(self, by:callable, value:str, wait_time:float=10):
         try:
             # element =  self.driver.find_element(by, value)
-            element =  WebDriverWait(self.driver, 10).until(EC.element_to_be_clickable((by, value)))
+            element =  WebDriverWait(self.driver, wait_time).until(EC.element_to_be_clickable((by, value)))
             time.sleep(0.5)
             return element
         except:

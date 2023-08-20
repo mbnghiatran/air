@@ -31,11 +31,11 @@ class Gmail(Base_task):
     @default_method_decorator(Base_task.default_method)
     def login(self):
         try: 
-            account_element = self.emulator.find_element(By.XPATH, f"//div[@data-identifier='{self.username}']")
+            account_element = self.emulator.find_element(By.XPATH, f"//div[@data-identifier='{self.username}']", 3.0)
             if account_element: # have logged in before
                 account_element.click()
             else:
-                email_input = self.emulator.find_element(By.XPATH, "//input[@type='email']")
+                email_input = self.emulator.find_element(By.XPATH, "//input[@type='email']", 3.0)
                 if email_input:
                     self.emulator.send_keys(email_input, self.username)
                 identifier_next = self.emulator.find_element(By.ID, "identifierNext")
